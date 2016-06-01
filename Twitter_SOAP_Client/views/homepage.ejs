@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html ng-app="twitterHome" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Twitter</title>
+
+    <link href="https://abs.twimg.com/a/1458271455/img/t1/favicon.svg"
+          color="#55acee">
+    <link href="//abs.twimg.com/favicons/favicon.ico" rel="shortcut icon"
+          type="image/xicon">
+
+    <link rel="stylesheet"
+          href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+
+    <script
+            src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script
+            src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-sanitize.min.js"></script>
+    <meta http-equiv="Cache-Control"
+          content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+
+    <title>Twitter Home</title>
+</head>
+<body ng-controller="homeController">
+<div class="row" id="1" style="height: 4rem; width: 100%; border: ridge;">
+    <div class="col-sm-5" style="float:left">
+        <ul style="list-style-type: none; margin: 0; padding: 0; overflow: hidden;">
+            <li style="display: block; color: white;">
+                <a href="/homepage"><span style="margin-top:5px; height: 25px; width: 25px;"
+                                          class="glyphicon glyphicon-home">Home</span></a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="col-sm-2" float="center">
+        <img src="/images/tb.png" alt="Twitter Image" style="height: 20px; width: 25px; margin-top:5px"/>
+    </div>
+
+    <div class="col-sm-4" id="twittersearch" style="text-align:center; float:left; margin-top:5px; ">
+        <input type="search" id="search" name="tsearch" placeholder="Search Twitter"
+               style="border-radius:10px; background-color: #f5f8fa; font-size: 12px; color: #292f33;">
+        <button><span ng-click="tweetsearch" class="glyphicon glyphicon-search"></span></button>
+        <input type="submit" value="User Profile" ng-click="userProfile()">
+    </div>
+
+    <div class="col-sm-1">
+        <input ng-click="logout()" style="float: left" type="submit" value="Logout"
+               class="btn btn-success btn-sm"/>
+    </div>
+</div>
+
+<div style="width:100%; height:100%">
+    <!-- User Information Section -->
+    <div id="2" style="width:25%; height:100%; border: ridge; float:left">
+
+        <div style="height: 8rem; background-color: #0084b4; width:100%"></div>
+
+        <div id="4" style="width: 35%; height:100%; float: left;">
+            <img src="/images/default.png" alt="User Image"
+                 style="border-radius:7px; height: 75px; width: 75px; text-align: center;
+						display: block; margin-top: -3rem; margin-left: auto; margin-right: auto;
+						border: 2px ridge #fff; box-sizing: border-box; color: #fff;">
+        </div>
+
+        <div id="5" style="width: 65%; float: left;">
+            <table>
+                <tr style="width:100%; text-align:center">
+                    <th>{{userfullname}}</th>
+                </tr>
+                <tr style="width:100%">
+                    <th>@{{twitterhandle}}</th>
+                </tr>
+            </table>
+        </div>
+        <div style="width:100%">
+            <table style="height: auto; padding: 0; margin: 0; width: 100%">
+                <tr>
+                    <th style="width: 33%; float: left; text-align: center;"
+                        ng-model="tweetCount">TWEETS
+                    </th>
+                    <th style="width: 33%; float: left; text-align: center;"
+                        ng-model="followerCount">FOLLOWING
+                    </th>
+                    <th style="width: 33%; float: left; text-align: center;"
+                        ng-model="followersCount">FOLLOWERS
+                    </th>
+                </tr>
+                <tr>
+                    <th style="width: 33%; float: left; text-align: center;">{{tweets}}</th>
+                    <th style="width: 33%; float: left; text-align: center;">{{following}}</th>
+                    <th style="width: 33%; float: left; text-align: center;">{{followers}}</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Tweet Box and the Tweets Section -->
+    <div id="3" style="width:45%; height:100%; border:ridge; float:left; padding: 10px">
+        <div style="float:left; width:100%; border:ridge; background-color: #E5F2F7">
+            <div id="userimage" style="float:left; margin-top:5px; margin-left:5px">
+                <img src="/images/default.png" alt="User Image"
+                     style="height: 20px; width: 20px; text-align: center; display: block; margin-left: auto; margin-right: auto">
+            </div>
+            <div style="float:left; padding:5px;">
+					<textarea ng-model="usrtweet" id="usrtweet" rows="4" cols="65" style="resize:none;"
+                              placeholder="What's happening?">
+		 				
+					</textarea>
+            </div>
+            <div style="margin-top:5px;float:left">
+                <button id="tweetbtn" type="submit" ng-click="addTweet()">Tweet</button>
+            </div>
+            <br>
+        </div>
+
+        <div style="float:left; width:100%; height:auto" ng-repeat="t in tweetsFetch">
+            <table style="border:ridge; width:100%;">
+                <tr>
+                    <td align="left" style="padding-left:10px; width:10%">
+                        <img src="/images/default.png" alt="User Image"
+                             style="height: 35px; width: 35px; float:left; border-radius:10px;">
+                    </td>
+                    <td style="padding-left:10px; margin-left:-2rem; width:90%"><strong>{{t.fullname}}</strong>
+                        @{{t.twitterhandle}}
+                        <br/>
+                        <div ng-bind-html="t.tweet">{{t.tweet}}</div>
+                        <br/>
+                        <div style="float:left;padding-left:150px; padding-bottom:10px; text-align:center"><span
+                                    class="glyphicon glyphicon-retweet"></span></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Suggest Whom to Follow -->
+    <div id="suggestions" style="width:30%; height:100%; border:ridge; float:left; padding: 10px">
+        <div style="float: left; width:100%">
+            <h4>Who to follow</h4>
+        </div>
+        <br>
+        <div style="float:left; width:100%;" ng-repeat="f in followSuggestion">
+            <table style="border-style:ridge; width:100% ">
+                <tr align="left" style="border-spacing:25px;">
+                    <th align="left" style="padding-left:10px; width:15%;">
+                        <img src="/images/default.png" alt="User Image"
+                             style="height: 30px; width: 30px; float:left; border-radius:10px;">
+                    </th>
+                    <td style="padding-left:10px; width:45%; margin-left:-1rem; float:left">
+                        <strong>{{f.userfullname}}</strong>
+                    </td>
+                    <td style="padding-left:10px; width:40%; margin-left:-1rem; float:left">
+                        @{{f.twitterhandle}}
+                    </td>
+                    <td style="float:left;">
+                        <input ng-click="followUser(f.twitterhandle)" type="button" value="Follow">
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    var app = angular.module('twitterHome', ['ngSanitize']);
+    app.controller('homeController', function ($scope, $http) {
+        //alert("Hi");
+        $http({
+            method: 'POST',
+            url: '/calculateValues'
+        })
+                .success(function (response) {
+                    $scope.userfullname = response.fullname;
+                    $scope.twitterhandle = response.twitterhandle;
+                    $scope.tweets = response.tweetscount;
+                    $scope.followers = response.followerscount;
+                    $scope.following = response.followingcount;
+                })
+                .error(function (error) {
+                    console.log("There was an error in fetching the user profile values");
+                });
+
+        $http({
+            method: 'POST',
+            url: '/renderTweets'
+                })
+                .success(function (response) {
+                    //console.log(JSON.stringify(response));
+                    $scope.tweetsFetch = response;		//Has the entire RESPONSE
+                })
+                .error(function (error) {
+                    console.log("There was a error while rendering the Tweets");
+                });
+
+
+        $scope.addTweet = function () {
+            alert("in addTweet function");
+            $http(
+                    {
+                        method: 'POST',
+                        url: '/addTweetToDB',
+                        data: {
+                            "tweetval": $scope.usrtweet
+                        }
+                    })
+                    .success(function (response) {
+                        if (response == 200) {
+                            document.getElementById('usrtweet').innerHTML = '';
+                            console.log("Tweet Added to database successfully!");
+                            window.location.href = '/homepage';
+                        }
+                    })
+                    .error(function (error) {
+                        console.log(error);
+                    });
+        };
+
+        $http({
+            method: 'POST',
+            url: '/suggestFollowers'
+        })
+                .success(function (response) {
+                    $scope.followSuggestion = response;
+
+                })
+                .error(function (error) {
+                    console.log("There was a error while suggesting who to follow");
+                });
+
+
+        $scope.followUser = function (userhandle) {
+            //alert("in followUser function");
+            $http(
+                    {
+                        method: 'POST',
+                        url: '/updateFollowers',
+                        data: {
+                            "thandle": userhandle
+                        }
+                    })
+                    .success(function (response) {
+                        if (response == 200) {
+                            alert("Followers Updated");
+                            console.log("Followers array of logged in user has been updated successfully!");
+                        }
+                        else {
+                            console.log("Error!...Followers array of logged in user was not updated");
+                        }
+                    })
+                    .error(function (error) {
+                        console.log(error);
+                    });
+        };
+
+        //Display the User Profile Page
+        $scope.userProfile = function () {
+            //alert("In the Edit User Profile");
+
+            $http(
+                    {
+                        method: 'get',
+                        url: '/userProfile'
+                    })
+                    .success(function (response) {
+                        console.log("Loaded the user profile page successfully!");
+                    })
+                    .error(function (error) {
+                        console.log(error);
+                    });
+
+            window.location.href = '/userProfile';
+        };
+
+        //Log Out
+        $scope.logout = function () {
+            $http(
+                    {
+                        method: 'GET',
+                        url: '/logout'
+                    })
+                    .success(function (response) {
+                        debugger
+                        window.location = '/';
+                    })
+                    .error(function (error) {
+                        window.location = '/';
+                    });
+        }
+
+        $scope.searchTweets = function () {
+            alert($scope.searchtext);
+            $http({
+                method: 'POST',
+                url: '/searchTweets',
+                data: {
+                    'searchText': $scope.searchtext
+                }
+            }).success(function (response) {
+                if (response == "Success") {
+                    window.location.href = '/searchResults';
+                }
+            }).error(function (error) {
+                console.log("Unable to search the tweet");
+            });
+        }
+
+    })
+</script>
+</html>

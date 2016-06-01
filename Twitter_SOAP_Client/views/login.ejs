@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html ng-app="loginApp">
+<head>
+<title>Login on Twitter</title>
+<meta name="description" content="Welcome back to Twitter. Sign in now to check your notifications, join the conversation and catch up on Tweets from the people you follow.">
+<link href="https://abs.twimg.com/a/1458271455/img/t1/favicon.svg" color="#55acee">
+<link href="//abs.twimg.com/favicons/favicon.ico" rel="shortcut icon" type="image/xicon">
+
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+<script	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+</head>
+	<body ng-controller="loginController" 
+		style="width:60%; margin-top: 20px; margin-left: 275px; margin-right: 200px; font-size: 20px; background-color:#F5F8FA">
+		<div class="row" style="float:left; width:100%;">
+		<div class="col-sm-4" style="float:left">
+			<ul style="list-style-type: none; margin: 0; padding: 0; overflow: hidden;  background-color:#FFFFFF">
+  				<li style="display: block; color: white;">
+  					<img src="/images/tb.png" alt="Twitter Image" style="height: 12px; width: 15px; margin-top:5px"/>
+  					<a href="/"><span style="margin-top:5px; height: 15px; width: 15px;" class="glyphicon glyphicon-home">Home</span></a>
+  				</li>
+			</ul>
+		</div>
+		</div>
+		<div style="width:80%; float:left; padding-left:40px; padding-top:20px; padding-right:40px; background-color:#F6F9FA;">
+			<div class="row" style="width:100%">
+				<form ng-submit="submit()" class="signin" style="background-color:#FFFFFF; padding-left:50px; padding-top:10px; padding-bottom:2px; line-height: 0.5em;">
+					<h3>Log in to Twitter</h3>
+					<div>
+						<div class="username">
+							<h1><input ng-model="username" class="username-field" type="email" name="username" autocomplete="on" placeholder="Enter your email-id" autofocus required/></h1>
+						</div>
+						<div class="password">
+							<h1><input ng-model="password" class="password-field" type="password" name="userPassword" placeholder="Enter your password" required style="background-color:#f6f990;"></h1>
+						</div>
+						<div class="loginSubmit">
+							<h1><button type="submit" class="btn btn-primary active btn-sm" >Log in</button></h1>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="signUp" style="background-color:#edeaea; font-size:15px; padding-left:50px;">
+				<form ng-submit="signup()">
+					New to Twitter? <button type="submit" id="signup-button" >Sign Up</button>
+				</form>
+			</div>
+		</div>
+	</body>
+	<script>
+			debugger
+		var app = angular.module('loginApp', []);
+			debugger
+		app.controller('loginController', function($scope, $http, $location)
+		{
+			//alert("Hi");
+			$scope.signup = function()
+			{
+				window.location.href="/signUp";
+			};			
+			     
+		    $scope.submit = function() 
+		    {
+		    //alert("Hello");
+		        $http(
+		        {
+		            method : 'POST',
+		            url	: '/checkLogin',
+		            data: {
+		                	'username' : $scope.username,
+		                	'password' : $scope.password
+		            	}
+		        })
+		        .success(function(data) 
+		        { 
+		        	if (data=="Success")
+					{
+						window.location.assign("/homepage");
+					}
+					else
+					{
+						alert("InValid Login");
+						window.location.assign("/")
+
+					} 
+		        })
+		        .error(function(error) 
+		        {
+		            alert(error);
+				});
+	    	};
+		})
+	</script>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html ng-app="SignUpApp">
+<head>
+<title>Sign Up</title>
+<meta name="description" content="Welcome back to Twitter. Sign in now to check your notifications, join the conversation and catch up on Tweets from the people you follow.">
+<link href="https://abs.twimg.com/a/1458271455/img/t1/favicon.svg" color="#55acee">
+<link href="//abs.twimg.com/favicons/favicon.ico" rel="shortcut icon" type="image/xicon">
+
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+<script	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+</head>
+	<body ng-controller="signUpController" 
+		style="width:60%; margin-top: 20px; margin-left: 275px; margin-right: 200px; font-size: 20px; background-color:#F5F8FA">
+		<div class="row" style="float:left; width:100%;">
+			<div class="col-sm-6" style="float:left">
+				<ul style="list-style-type: none; margin: 0; padding: 0; overflow: hidden;  background-color:#FFFFFF">
+	  				<li style="display: block; color: white;">
+	  					<img src="/images/tb.png" alt="Twitter Image" style="height: 20px; width: 30px; margin-top:5px"/>
+	  				</li>
+				</ul>
+			</div>
+		</div>
+		<div class="row" style="width:100%; float:left; padding-left:40px; padding-top:20px; background-color:#F6F9FA;">
+			<form ng-submit="signup()" class="signup" style="background-color:#FFFFFF; padding-left:50px; padding-top:10px;">
+				<div>
+					<table>
+						<tr>
+							<td><h1>Join Twitter today</h1></td>
+						</tr>
+						<tr>
+							<td>
+								<input ng-model="firstname" class="userfirstname-field" type="text" name="userfirstname" placeholder="Enter your First Name" required/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<input ng-model="lastname" class="userlastname-field" type="text" name="userlastname" placeholder="Enter your Last Name" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<input ng-model="username" class="useremail-field" type="email" name="userEmail" placeholder="Enter your email-id" required/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<input ng-model="password" class="userpasswd-field" type="password" name="userPassword" placeholder="Enter your password" required/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<input ng-model="twitterhandle" class="userthandle-field" type="text" name="userTHandle" placeholder="Pick a Tweet Handler" required/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<input ng-model="dob" class="userdob-field" type="date" name="userDOB" placeholder="Select your Birdthday" required/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<input ng-model="phone" class="userphone-field" type="text" name="userPhone" placeholder="Enter your Mobile Number" required/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<input ng-model="location" class="userlocation-field" type="text" name="userLocation" placeholder="Enter your location" required/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<button type="submit" class="btn btn-primary active btn-sm">Sign Up</button>
+							</td>
+						</tr>
+					</table>
+				</div>	
+			</form>
+		</div>
+	</body>
+	<script>
+			debugger
+		var app = angular.module('SignUpApp', []);
+			debugger
+		app.controller('signUpController', function($scope, $http, $location)
+		{
+			//alert("Hi");     
+		    $scope.signup = function() 
+		    {
+		    //alert("Hello");
+		        $http(
+		        {
+		            method : 'POST',
+		            url	: '/addUser',
+		            data: {
+		            		'firstname'	: $scope.firstname,
+		            		'lastname' 	: $scope.lastname,
+		                	'username' 	: $scope.username,
+		                	'password' 	: $scope.password,
+		                	'thandle'  	: $scope.twitterhandle,
+							'dob'		: $scope.dob,
+							'phone'		: $scope.phone,
+							'location'	: $scope.location
+		            	}
+		        })
+		        .success(function(data) 
+		        {
+					alert(data);
+		        	if (data == "OK")
+					{
+						window.location.assign("/");
+					}
+					else
+					{
+						alert("User SignUp Unsuccessful" + data);
+					}
+		        })
+		        .error(function(error) 
+		        {
+		            $scope.unexpected_error=false;
+					$scope.invalid_login=true;
+				});
+	    	};
+		})
+	</script>
+</html>

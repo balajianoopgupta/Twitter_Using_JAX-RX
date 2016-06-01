@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://twitterservices.com" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://twitterservices.com" xmlns:intf="http://twitterservices.com" xmlns:tns1="http://sql.java" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://twitterservices.com" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://sql.java"/>
+   <element name="config">
+    <complexType/>
+   </element>
+   <element name="configResponse">
+    <complexType>
+     <sequence>
+      <element name="configReturn" type="xsd:anyType"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="configRequest">
+
+      <wsdl:part element="impl:config" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="configResponse">
+
+      <wsdl:part element="impl:configResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="DatabaseConnection">
+
+      <wsdl:operation name="config">
+
+         <wsdl:input message="impl:configRequest" name="configRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:configResponse" name="configResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="DatabaseConnectionSoapBinding" type="impl:DatabaseConnection">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="config">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="configRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="configResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="DatabaseConnectionService">
+
+      <wsdl:port binding="impl:DatabaseConnectionSoapBinding" name="DatabaseConnection">
+
+         <wsdlsoap:address location="http://localhost:8080/Twitter_SOAP_Server/services/DatabaseConnection"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>
